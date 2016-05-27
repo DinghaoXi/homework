@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>全排列动画演示</title>
+<script language="javascript" src="js/jquery.min.js"></script>
+</head>
+<style>
+*{ margin:0; padding:0;}
+body{ background-color:#666;}
+#box{
+	width: 1100px;
+	background-color: white;
+	margin: 0 auto;
+	position: relative;
+	overflow: hidden;
+	top: 20px;
+}
+#select{ width:1000px; height:50px; line-height:50px; text-align:center; margin:20px auto; font-size:12px; color:#fff;}
+.test{  border:1px solid #CCC; background-color:#fff; position:absolute;bottom:0;}
+.pass{ background-color:#F00;}
+.change{ background-color:#0F3;}
+.changeEnd{ background-color:#FF0;}
+</style>
+<body>
+	<div id="box">
+    </div>
+	
+    <div id="select">算法:<select id="algorithm">
+   	  <option value="1" selected="selected">全排列（八皇后）</option>
+        <option value="2">交换法</option>
+    </select>
+     
+    算法执行速度:
+    <select id="speed">
+    	<option value="1" selected="selected" >fast</option>
+        <option value="5" >normal</option>
+        <option value="10" >slow</option>
+        <option value="100" >snail</option>
+    </select>
+    请输入数字 :    
+    <input type="text" id="array" />
+    <input type="button" value="开始" onclick="react()"/>
+    <hr />
+    <!-- #BeginDate format:Ch1a -->16/5/14  11:43 PM<!-- #EndDate -->
+    <hr />
+    </div>
+    
+ <script language="javascript">
+
+
+/**************算法原型*****************/
+
+
+var count = 0; 
+function show(arr) { 
+	document.getElementById("box").innerHTML+="P<sub>" + ++count + "</sub>: " + arr +"&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+	if(count%5==0)
+	{document.getElementById("box").innerHTML+="<br/>";
+		document.getElementById("box").style.height="23px*count";
+		}
+
+} 
+function seek(index, n) { 
+    if (n >= 0)  
+        if (index[n] < index.length - 1) { 
+            index[n]++;  
+            if ((function () { 
+                for (var i = 0; i < n; i++) 
+                    if (index[i] == index[n]) return true; 
+                return false; 
+            })()) 
+                return seek(index, n);  
+            else
+                return true; 
+        } 
+        else {  
+            index[n] = -1;  
+            if (seek(index, n - 1))  
+                return seek(index, n); 
+            else
+                return false; 
+        } 
+    else
+        return false; 
+} 
+function perm(arr) { 
+    var index = new Array(arr.length); 
+    for (var i = 0; i < index.length; i++) 
+        index[i] = -1; 
+    for (i = 0; i < index.length - 1; i++) 
+        seek(index, i);  
+    while (seek(index, index.length - 1)) { 
+        var temp = []; 
+        for (i = 0; i < index.length; i++) 
+            temp.push(arr[index[i]]); 
+        show(temp); 
+    } 
+} 
+function react()
+{
+	var t=setTimeout("alert('10s钟了如果没有算出来就换个数字吧算出来就恭喜你了哦')",10000);
+	var a=document.getElementById("array").value;
+	perm(a);
+	
+} 
+
+/**************算法原型*End***************/
+
+</script>
+<div style="left:100px;top:100px">
+</div>
+</body>
+</html>
